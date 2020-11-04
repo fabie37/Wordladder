@@ -1,11 +1,4 @@
-public class LevenstienDistance {
-	
-	public static void main(String[] args) {
-		int distance = LevenstienDistance.getDistance("Hello", "World");
-		System.out.println(distance);
-	}
-
-	public LevenstienDistance() {}
+public final class LevenstienDistance {
 	
 	public static int getDistance(String s1, String s2) {
 		int cost = 0;
@@ -31,6 +24,4 @@ public class LevenstienDistance {
 		}
 		return table[s1.length()][s2.length()];
 	}
-	
-
 }
