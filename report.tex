@@ -1,0 +1,51 @@
+\usepackage{layout}
+ 
+\geometry{includeheadfoot,margin=2cm}
+\title{Algorithmics I --  Assessed Exercise\\ \vspace{4mm} 
+Status and Implementation Reports}
+
+\author{\bf Insert your name\\ \bf and matriculation number here}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Status report}
+
+In the event of a non-working program, this section should state clearly what happens when the program is compiled (in the case of compile-time errors) or run (in the case of run-time errors).  
+
+Otherwise, this section should state whether you believe that your programs are working correctly. If so, indicate the basis for your belief, if not comment on what you think might be the problem.
+
+\section*{Implementation report}
+
+\begin{itemize}
+\item[(a)] 
+Here, explain how you implemented the first program for finding and printing word ladders. Include a discussion of any steps that you took to improve efficiency.
+\item[(b)]
+Here, explain how you implemented the Dijkstra's algorithm for finding shortest paths. Include a discussion of any steps that you took to improve efficiency.
+\end{itemize}
+
+\section*{Empirical results}
+
+This section is part of the marking scheme "Outputs from test data: 2 marks".
+\\ \\
+If the program fails to terminate in, say, two minutes, simply report non-termination. To print your outputs you can use the verbatim environment:
+
+\begin{verbatim}
+size of dictionary = 1638
+word = flour
+word = bread
+minimum path distance 54
+path with minimum distance:
+    flour
+    floor
+    flood
+    blood
+    brood
+    broad
+    bread
+elapsed time: 108 milliseconds
+\end{verbatim}
+
+\end{document}
