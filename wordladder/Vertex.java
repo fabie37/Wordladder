@@ -4,15 +4,15 @@ import java.util.LinkedList;
 /**
  class to represent a vertex in a graph
 */
-public class Vertex {
+public class Vertex<Type> {
    
     private LinkedList<AdjListNode> adjList ; // the adjacency list of the vertex 
     private int index; // the index of the vertex
-    
+    private Type data;
     // possibly other fields, for example representing data
     // stored at the node, whether the vertex has been visited
     // in a traversal, its predecessor in such a traversal, etc.
-
+    
     boolean visited; // whether vertex has been visited in a traversal
     int predecessor; // index of predecessor vertex in a traversal
 
@@ -23,15 +23,17 @@ public class Vertex {
     	adjList = new LinkedList<AdjListNode>();
     	index = n;
     	visited = false;
+    	this.data = null;
     }
     
     /**
 	 copy constructor
 	*/
-    public Vertex(Vertex v){
+    public Vertex(Vertex<Type> v){
     	adjList = v.getAdjList();
     	index = v.getIndex();
     	visited = v.getVisited();
+    	data = v.getData();
     }
      
     public LinkedList<AdjListNode> getAdjList(){
@@ -60,6 +62,14 @@ public class Vertex {
     
     public void setPredecessor(int n){
     	predecessor = n;
+    }
+    
+    public Type getData() {
+    	return this.data;
+    }
+    
+    public void setData(Type data) {
+    	this.data = data;
     }
     
     public void addToAdjList(int n){

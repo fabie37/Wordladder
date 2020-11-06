@@ -4,40 +4,41 @@ import java.util.Queue;
 /**
  class to represent an undirected graph using adjacency lists
  */
-public class Graph {
+public class Graph<Type> {
 
-	private Vertex[] vertices; // the (array of) vertices
-	private int numVertices = 0; // number of vertices
+	protected Vertex<Type>[] vertices; // the (array of) vertices
+	protected int numVertices = 0; // number of vertices
 
 	// possibly other fields representing properties of the graph
 
 	/** 
 	 creates a new instance of Graph with n vertices
 	*/
+	@SuppressWarnings("unchecked")
 	public Graph(int n) {
 		numVertices = n;
-		vertices = new Vertex[n];
+		vertices = (Vertex<Type>[]) new Vertex[n];
 		for (int i = 0; i < n; i++)
-			vertices[i] = new Vertex(i);
+			vertices[i] = new Vertex<Type>(i);
 	}
 
 	public int size() {
 		return numVertices;
 	}
 
-	public Vertex getVertex(int i) {
+	public Vertex<Type> getVertex(int i) {
 		return vertices[i];
 	}
 
 	public void setVertex(int i) {
-		vertices[i] = new Vertex(i);
+		vertices[i] = new Vertex<Type>(i);
 	}
 
 	/**
 	 visit vertex v, with predecessor index p,
 	 during a depth first traversal of the graph
 	*/
-	private void Visit(Vertex v, int p) {
+	private void Visit(Vertex<Type> v, int p) {
 		v.setVisited(true);
 		v.setPredecessor(p);
 		LinkedList<AdjListNode> L = v.getAdjList();
@@ -53,9 +54,9 @@ public class Graph {
      carry out a depth first search/traversal of the graph
 	*/
 	public void dfs() {
-		for (Vertex v : vertices)
+		for (Vertex<Type> v : vertices)
 			v.setVisited(false);
-		for (Vertex v : vertices)
+		for (Vertex<Type> v : vertices)
 			if (!v.getVisited())
 				Visit(v, -1);
 	}
@@ -64,17 +65,17 @@ public class Graph {
 	 //psedocode version
 	 
 	public void bfs() {
-		for (Vertex v : vertices) {
+		for (Vertex<Type> v : vertices) {
 			v.setVisited(false);
 		}
-		Queue<Vertex> q = new LinkedList<Vertex>();
-		for (Vertex v : vertices) {
+		Queue<Vertex<Type>> q = new LinkedList<Vertex<Type>>();
+		for (Vertex<Type> v : vertices) {
 			if (v.getVisited() != true) {
 				v.setVisited(true);
 				v.setPredecessor(v.getIndex());
 				q.add(v);
 				while (!q.isEmpty()) {
-					Vertex w = q.remove();
+					Vertex<Type> w = q.remove();
 					for (AdjListNode u : w.getAdjList()) {
 						int index = u.getVertexIndex();
 						if (!vertices[index].getVisited()) {

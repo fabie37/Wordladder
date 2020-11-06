@@ -18,14 +18,30 @@ public class Main {
 		Scanner in = new Scanner(reader);
 		
 		// read in the data here
-
+		String word = in.nextLine();
+		List<String> wordlist = new ArrayList<String>();
+		while (in.hasNextLine()) {
+			wordlist.add(word);
+			word = in.nextLine();
+		}
 		// create graph here
-
+		Dictionary dict = new Dictionary(wordlist.size());
+		for (int i=0; i<wordlist.size(); i++) {
+			dict.setVertex(wordlist.get(i), i);
+		}
+		dict.build();
 		reader.close();
 
         
 		// do the work here
-		
+		Vertex<String> result = dict.search(word1, word2);
+		if (result == null) { 
+			System.out.println("No ladder found");
+		} else {
+			LaderBuilder wordlader = new LaderBuilder();
+			wordlader.construct(word1, result, dict);
+			wordlader.printLader();
+		}
 		// end timer and print total time
 		long end = System.currentTimeMillis();
 		System.out.println("\nElapsed time: " + (end - start) + " milliseconds");
