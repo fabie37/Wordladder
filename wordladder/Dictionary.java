@@ -50,9 +50,12 @@ public class Dictionary extends Graph<String>{
 	} 
 	
 	public void build() {
+		
+		int limit = 1;
+		
 		for (int i=0; i<this.size(); i++) {
 			for (int j=0; j<this.size(); j++) {
-				int dist = LevenstienDistance.getDistance(this.getVertex(i).getData(), this.getVertex(j).getData());
+				int dist = LevenstienDistance.getDistance(this.getVertex(i).getData(), this.getVertex(j).getData(), limit);
 				if (dist == 1) {
 					this.getVertex(i).addToAdjList(j);
 				}
