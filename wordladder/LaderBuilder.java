@@ -19,7 +19,6 @@ public final class LaderBuilder {
 			word = g.getVertex(word.getPredecessor());
 		}
 		words.push(start);
-		length++;
 	}
 	
 	public int getLength() {
@@ -27,10 +26,14 @@ public final class LaderBuilder {
 	}
 	
 	public void printLader() {
-		if (this.words == null) return;
+		if (this.words == null) {
+			System.out.println("no word ladder exists");
+			return;
+		};
+		
+		System.out.println("shortest word ladder of length "+this.getLength());
 		while (!this.words.isEmpty()) {
-			System.out.print(words.pop() + "->");
+			System.out.println("\t" + words.pop());
 		}
-		System.out.println(length);
 	}
 }

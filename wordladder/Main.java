@@ -27,28 +27,16 @@ public class Main {
 		}
 		
 		// create graph here
-		/*Dictionary dict = new Dictionary(trie.getWordCount());
+		Dictionary dict = new Dictionary(trie.getWordCount());
 		for (int i=0; i<trie.getWordCount(); i++) {
 			dict.setVertex(trie.getWordList().get(i), i);
 		}
-		dict.build();
-		reader.close(); */
-		HashMap<String, Boolean> found = new HashMap<String, Boolean>();
-		for (String s: trie.getWordList()) {
-			for (String d: trie.getWordList()) {
-				Boolean b = found.get(d);
-				if (b == null) {continue;} 
-				else if (b == true) { continue;}
-				else {LevenstienDistance.getDistance(s, d, 1);}
-			}
-			found.put(s, true);
-			/*List<String> results  = trie.getLevenstienDistances(s, 1);
-			int i = 1;*/
-			
-		}
+		dict.build(trie);
+		reader.close(); 
+
 		
 
-		/*
+		
 		// do the work here
 		Vertex<String> result = dict.search(word1, word2);
 		if (result == null) { 
@@ -57,7 +45,7 @@ public class Main {
 			LaderBuilder wordlader = new LaderBuilder();
 			wordlader.construct(word1, result, dict);
 			wordlader.printLader();
-		}*/
+		}
 		// end timer and print total time
 		long end = System.currentTimeMillis();
 		System.out.println("\nElapsed time: " + (end - start) + " milliseconds");

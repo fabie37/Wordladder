@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class Dictionary extends Graph<String>{
@@ -49,16 +50,15 @@ public class Dictionary extends Graph<String>{
 		return null;
 	} 
 	
-	public void build() {
+	public void build(WordTrie trie) {
 		
 		int limit = 1;
 		
-		for (int i=0; i<this.size(); i++) {
-			for (int j=0; j<this.size(); j++) {
-				int dist = LevenstienDistance.getDistance(this.getVertex(i).getData(), this.getVertex(j).getData(), limit);
-				if (dist == 1) {
-					this.getVertex(i).addToAdjList(j);
-				}
+		for (String s: trie.getWordList()) {
+			List<String> results  = trie.getLevenstienDistances(s, limit);
+			for (String result : results) {
+				this.getVertex(result).addToAdjList(this.table.get(s));
+				this.getVertex(s).addToAdjList(this.table.get(result));
 			}
 		}
 	}

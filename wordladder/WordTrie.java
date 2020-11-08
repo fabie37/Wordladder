@@ -10,14 +10,12 @@ import java.util.Stack;
 public class WordTrie extends TrieTree<String> {
 	
 	List<String> wordlist;
-	HashMap<String, Boolean> isFound; 
 	int wordcount;
 	
 	
 	public WordTrie() {
 		super();
 		this.wordlist = new ArrayList<String>();
-		this.isFound = new HashMap<String, Boolean>();
 		this.wordcount = 0;
 	}
 	
@@ -32,6 +30,36 @@ public class WordTrie extends TrieTree<String> {
 		n.setData(word);
 		this.wordcount++;
 		this.wordlist.add(word);
+	}
+	
+	public void deleteWord(String word) {
+		TrieNode root = this.getRoot();
+		int index = 0;
+		deleteWordRecurssive(root, word, index);
+		this.wordcount--;
+	}
+	
+	public TrieNode deleteWordRecurssive(TrieNode node, String word, int index) {
+		// Base Case: If child has no children or is the word itself
+		if (node == null) {
+			return null;
+		}
+		
+		if (index-1 == word.length() - 1) {
+			if (!node.children.isEmpty()) {
+				node.setData(null);
+				node = null;
+			} 
+			return node;
+		}
+		
+		node.children.remove(String.valueOf(word.charAt(index)), deleteWordRecurssive(node.getChild(String.valueOf(word.charAt(index))), word, index + 1));
+		
+		if (node.children.isEmpty() && node.getData() == null) {
+			return node;
+		}
+		return null;
+		
 	}
 	
 	public int getWordCount() {
@@ -107,6 +135,7 @@ public class WordTrie extends TrieTree<String> {
 				}
 			}
 		}
+		this.deleteWord(word);
 		return adjWords;
 	}
 	
