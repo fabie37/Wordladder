@@ -1,3 +1,4 @@
+package program2;
 import java.util.HashMap;
 
 public abstract class TrieTree<Type> {

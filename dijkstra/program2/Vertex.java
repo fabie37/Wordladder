@@ -1,3 +1,4 @@
+package program2;
 import java.util.LinkedList;
 
 
@@ -15,6 +16,7 @@ public class Vertex<Type> {
     
     boolean visited; // whether vertex has been visited in a traversal
     int predecessor; // index of predecessor vertex in a traversal
+    int distanceFromPred; // distance from predecessor
 
     /**
 	 creates a new instance of Vertex
@@ -72,8 +74,20 @@ public class Vertex<Type> {
     	this.data = data;
     }
     
+    public int getDistanceFromPred() {
+    	return this.distanceFromPred;
+    }
+    
+    public void setDistanceFromPred(int d) {
+    	this.distanceFromPred = d;
+    }
+    
     public void addToAdjList(int n){
         adjList.addLast(new AdjListNode(n));
+    }
+    
+    public void addToAdjList(int n, int weight){
+        adjList.addLast(new AdjListNode(n, weight));
     }
     
     public int vertexDegree(){

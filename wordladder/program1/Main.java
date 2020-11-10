@@ -1,3 +1,4 @@
+package program1;
 import java.io.*;
 import java.util.*;
 
@@ -33,16 +34,14 @@ public class Main {
 		}
 		dict.build(trie);
 		reader.close(); 
+		in.close();
 
-		
-
-		
 		// do the work here
 		Vertex<String> result = dict.search(word1, word2);
 		if (result == null) { 
 			System.out.println("No ladder found");
 		} else {
-			LaderBuilder wordlader = new LaderBuilder();
+			LadderBuilder wordlader = new LadderBuilder();
 			wordlader.construct(word1, result, dict);
 			wordlader.printLader();
 		}

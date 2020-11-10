@@ -1,3 +1,4 @@
+package program2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -71,10 +72,14 @@ public class WordTrie extends TrieTree<String> {
 	}
 	
 	// Get strings which have a edit distance of limit to a word
-	public List<String> getLevenstienDistances(String word, int limit) {
-		List<String> adjWords = new ArrayList<String>();
+	public HashMap<String, Integer> getWeightedLevenstienDistances(String word, int limit) {
+		// Since this is an iterative version of a recurissive function, 
+		// to keep track of previous history, Stacks are required
+		HashMap<String, Integer> adjWords = new HashMap<String, Integer>();
 		Stack<TrieNode> nodeStack = new Stack<TrieNode>();
 		Stack<Integer> heightStack = new Stack<Integer>();
+		Stack<Integer> weightStack = new Stack<Integer>();
+		
 		Stack<Integer[]> previousColStack = new Stack<Integer[]>();
 		
 		// Base Case: check if trie is empty
@@ -89,6 +94,7 @@ public class WordTrie extends TrieTree<String> {
 		for (TrieNode n : this.getRoot().children.values()) {
 			nodeStack.add(n);
 			heightStack.add(1);
+			weightStack.add(0);
 		}
 		
 		// Iterate through trie
@@ -97,6 +103,8 @@ public class WordTrie extends TrieTree<String> {
 			TrieNode currentNode = nodeStack.pop();
 			Integer height = heightStack.pop();
 			Integer[] newCol = new Integer[word.length()+1];
+			Integer prevWeight = weightStack.pop();
+			
 			newCol[0] = height;
 			
 			// Calculate the new edit distance column
@@ -108,6 +116,9 @@ public class WordTrie extends TrieTree<String> {
 					subCost = previousColStack.peek()[i-1];
 				} else {
 					subCost = previousColStack.peek()[i-1] + 1;
+					if (height == i) {
+						prevWeight += Math.abs((int)word.charAt(i-1) - (int)currentNode.getIndex().charAt(0));
+					}
 				}
 				
 				newCol[i] = Math.min(insertionCost, Math.min(deletionCost, subCost));
@@ -116,7 +127,7 @@ public class WordTrie extends TrieTree<String> {
 			
 			// If node is a word and if edit distance is the limit, add to returned list
 			if (newCol[word.length()] == limit && currentNode.getData() != null) {
-				adjWords.add(currentNode.getData());
+				adjWords.put(currentNode.getData(), prevWeight);
 			}
 			
 			// Check if current node has any children
@@ -126,6 +137,7 @@ public class WordTrie extends TrieTree<String> {
 				for (TrieNode n : currentNode.children.values()) {
 					nodeStack.add(n);
 					heightStack.add(newHeight);
+					weightStack.add(prevWeight);
 				}
 			} else {
 				if (!nodeStack.isEmpty() && !heightStack.isEmpty()) {

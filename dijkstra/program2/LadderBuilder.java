@@ -1,12 +1,13 @@
+package program2;
 
 import java.util.Stack;
 
-public final class LaderBuilder {
+public final class LadderBuilder {
 	
 	private int length;
 	private Stack<String> words;
 	
-	public LaderBuilder() {
+	public LadderBuilder() {
 		this.length = 0;
 		this.words = new Stack<String>();
 	}
@@ -15,7 +16,7 @@ public final class LaderBuilder {
 		Vertex<String> word = end;
 		while (!word.getData().equals(start)) {
 			words.push(word.getData());
-			length++;
+			length += word.getDistanceFromPred();
 			word = g.getVertex(word.getPredecessor());
 		}
 		words.push(start);
