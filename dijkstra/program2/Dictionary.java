@@ -1,14 +1,9 @@
 package program2;
-import java.util.Collections;
+
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
-import java.util.Queue;
 
-import javax.swing.event.ListSelectionEvent;
 
 public class Dictionary extends Graph<String>{
 
@@ -86,9 +81,6 @@ public class Dictionary extends Graph<String>{
 	} 
 	
 	public void build(WordTrie trie) {
-		
-		int limit = 1;
-		
 		for (String s: trie.getWordList()) {
 			HashMap<String, Integer> results  = trie.getWeightedAdjStrings(s);
 			for (Entry<String, Integer> entry : results.entrySet()) {
@@ -97,24 +89,4 @@ public class Dictionary extends Graph<String>{
 			}
 		} 
 	}
-	
-	public void printDictionary() {
-		for (Vertex<String> v : this.vertices) {
-			System.out.print(v.getData() + " has children { ");
-			int sum = 0;
-			for (char c : v.getData().toCharArray()) {
-				sum += (int) c;
-			}
-			for (AdjListNode n : v.getAdjList()) {
-				int sum2 = 0;
-				for (char c : this.getVertex(n.getVertexIndex()).getData().toCharArray()) {
-					sum2 += (int) c;
-				}
-				System.out.print(this.getVertex(n.getVertexIndex()).getData() + ":" + n.getWeight() + ":" + Math.abs(sum-sum2) + " ");
-			}
-			System.out.print("} \n");
-		}
-	}
-	
-
 }

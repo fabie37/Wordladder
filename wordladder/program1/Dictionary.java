@@ -57,9 +57,6 @@ public class Dictionary extends Graph<String>{
 	} 
 	
 	public void build(WordTrie trie) {
-		
-		int limit = 1;
-		
 		for (String s: trie.getWordList()) {
 			List<String> results  = trie.getAdjStrings(s);
 			for (String result : results) {

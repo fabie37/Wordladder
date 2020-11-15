@@ -1,8 +1,6 @@
 package program2;
 import java.util.HashMap;
 
-import program1.TrieTree.TrieNode;
-
 public abstract class TrieTree<Type> {
 	
 	protected TrieNode root;

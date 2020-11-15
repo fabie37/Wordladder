@@ -2,9 +2,6 @@ package program2;
 import java.io.*;
 import java.util.*;
 
-import program2.Dictionary;
-import program2.WordTrie;
-
 /**
  program to find word ladder with shortest distance for two words in a dictionary
  distance between elements of the word ladder is the absolute difference in the
