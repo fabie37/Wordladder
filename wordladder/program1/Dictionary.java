@@ -61,7 +61,7 @@ public class Dictionary extends Graph<String>{
 		int limit = 1;
 		
 		for (String s: trie.getWordList()) {
-			List<String> results  = trie.getLevenstienDistances(s, limit);
+			List<String> results  = trie.getAdjStrings(s);
 			for (String result : results) {
 				this.getVertex(result).addToAdjList(this.table.get(s));
 				this.getVertex(s).addToAdjList(this.table.get(result));

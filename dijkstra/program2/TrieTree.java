@@ -1,6 +1,8 @@
 package program2;
 import java.util.HashMap;
 
+import program1.TrieTree.TrieNode;
+
 public abstract class TrieTree<Type> {
 	
 	protected TrieNode root;
@@ -39,6 +41,10 @@ public abstract class TrieTree<Type> {
 		
 		public TrieNode getChild(Type c) {
 			return this.children.get(c);
+		}
+		
+		public HashMap<Type, TrieNode> getChildren() {
+			return this.children;
 		}
 		
 		public void setData(Type data) {

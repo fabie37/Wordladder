@@ -31,7 +31,7 @@ public class Main {
 		Dictionary dict = new Dictionary(trie.getWordCount());
 		for (int i=0; i<trie.getWordCount(); i++) {
 			dict.setVertex(trie.getWordList().get(i), i);
-		}
+		} 
 		dict.build(trie);
 		reader.close(); 
 		in.close();

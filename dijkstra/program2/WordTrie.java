@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import program1.TrieTree.TrieNode;
+
 public class WordTrie extends TrieTree<String> {
 	
 	List<String> wordlist;
@@ -71,84 +73,36 @@ public class WordTrie extends TrieTree<String> {
 		return this.wordlist;
 	}
 	
-	// Get strings which have a edit distance of limit to a word
-	public HashMap<String, Integer> getWeightedLevenstienDistances(String word, int limit) {
-		// Since this is an iterative version of a recurissive function, 
-		// to keep track of previous history, Stacks are required
-		HashMap<String, Integer> adjWords = new HashMap<String, Integer>();
-		Stack<TrieNode> nodeStack = new Stack<TrieNode>();
-		Stack<Integer> heightStack = new Stack<Integer>();
-		Stack<Integer> weightStack = new Stack<Integer>();
-		
-		Stack<Integer[]> previousColStack = new Stack<Integer[]>();
-		
-		// Base Case: check if trie is empty
-		if (this.getRoot().children.isEmpty()) { return null; } 
-		
-		// Construct the column from null string to word
-		Integer[] wordColumn = new Integer[word.length()+1]; 
-		for (int i=0; i<word.length()+1; i++) { wordColumn[i] = i; }
-		
-		// Add this column and root node to current node, set height as 0
-		previousColStack.add(wordColumn);
-		for (TrieNode n : this.getRoot().children.values()) {
-			nodeStack.add(n);
-			heightStack.add(1);
-			weightStack.add(0);
+	// Get adj strings 
+		public HashMap<String, Integer> getWeightedAdjStrings(String word) {
+			HashMap<String, Integer> list = new HashMap<String, Integer>();
+			for (int cursor = 0; cursor < word.length(); cursor++) {
+				fetchWeighted(list, word, 0, 0, cursor, this.getRoot());
+			}
+			this.deleteWord(word);
+			return list;
 		}
 		
-		// Iterate through trie
-		while (!nodeStack.isEmpty()) {
-			// Get the current node and start a new column
-			TrieNode currentNode = nodeStack.pop();
-			Integer height = heightStack.pop();
-			Integer[] newCol = new Integer[word.length()+1];
-			Integer prevWeight = weightStack.pop();
-			
-			newCol[0] = height;
-			
-			// Calculate the new edit distance column
-			for (int i=1; i<word.length()+1; i++) {
-				int insertionCost = newCol[i-1] + 1;
-				int deletionCost = previousColStack.peek()[i] + 1;
-				int subCost;
-				if (String.valueOf(word.charAt(i-1)).equals(currentNode.getIndex())) {
-					subCost = previousColStack.peek()[i-1];
-				} else {
-					subCost = previousColStack.peek()[i-1] + 1;
-					if (height == i) {
-						prevWeight += Math.abs((int)word.charAt(i-1) - (int)currentNode.getIndex().charAt(0));
+		public void fetchWeighted(HashMap<String, Integer> l, String word, int mypos, int myweight, int cursor, TrieNode node) {
+			if (mypos == cursor) {
+				for (TrieNode m : node.getChildren().values()) {
+					if (!String.valueOf(word.charAt(cursor)).equals(m.getIndex())) {
+						int weight = Math.abs((int)word.charAt(cursor) - (int)m.getIndex().charAt(0));
+						fetchWeighted(l, word, mypos+1, weight,cursor, m);
 					}
-				}
-				
-				newCol[i] = Math.min(insertionCost, Math.min(deletionCost, subCost));
-
-			}
-			
-			// If node is a word and if edit distance is the limit, add to returned list
-			if (newCol[word.length()] == limit && currentNode.getData() != null) {
-				adjWords.put(currentNode.getData(), prevWeight);
-			}
-			
-			// Check if current node has any children
-			if (!currentNode.children.isEmpty() && Collections.min(Arrays.asList(newCol)) <= limit) {
-				Integer newHeight = height + 1;
-				previousColStack.add(newCol);
-				for (TrieNode n : currentNode.children.values()) {
-					nodeStack.add(n);
-					heightStack.add(newHeight);
-					weightStack.add(prevWeight);
 				}
 			} else {
-				if (!nodeStack.isEmpty() && !heightStack.isEmpty()) {
-					for (int i=height; i > heightStack.peek(); i--) {
-						previousColStack.pop();
-					}
+				if (mypos > word.length()) {
+					return; 
+				} else if (mypos == word.length() && node.getData() != word) {
+					l.put(node.getData(), myweight);
+					return;
+				} else if (node.getChild(String.valueOf(word.charAt(mypos))) != null) {
+					TrieNode nextNode = node.getChild(String.valueOf(word.charAt(mypos)));
+					fetchWeighted(l, word, mypos+1, myweight, cursor, nextNode);
+				} else {
+					return;
 				}
 			}
 		}
-		this.deleteWord(word);
-		return adjWords;
-	}
-	
 }

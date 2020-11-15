@@ -90,7 +90,7 @@ public class Dictionary extends Graph<String>{
 		int limit = 1;
 		
 		for (String s: trie.getWordList()) {
-			HashMap<String, Integer> results  = trie.getWeightedLevenstienDistances(s, limit);
+			HashMap<String, Integer> results  = trie.getWeightedAdjStrings(s);
 			for (Entry<String, Integer> entry : results.entrySet()) {
 				this.getVertex(entry.getKey()).addToAdjList(this.table.get(s), entry.getValue());
 				this.getVertex(s).addToAdjList(this.table.get(entry.getKey()), entry.getValue());

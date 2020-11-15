@@ -1,6 +1,7 @@
 
-.log
-bin/
+*.log
+/bin/*
 .settings/
 .classpath
 .project
+*.jar

@@ -41,6 +41,10 @@ public abstract class TrieTree<Type> {
 			return this.children.get(c);
 		}
 		
+		public HashMap<Type, TrieNode> getChildren() {
+			return this.children;
+		}
+		
 		public void setData(Type data) {
 			this.data = data;
 		}
